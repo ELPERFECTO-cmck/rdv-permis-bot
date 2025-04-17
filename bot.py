@@ -1,29 +1,24 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 import time
 
-print("💡 Le script a bien démarré")
+print("🟢 Bot (Firefox) démarré...")
 
-chrome_path = "chrome_path = "/usr/bin/google-chrome"
-  # 💥 chemin correct dans l'image officielle
-
-chrome_options = Options()
-chrome_options.binary_location = chrome_path
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+options.add_argument("--no-sandbox")
 
 try:
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Firefox(options=options)
     driver.get("https://rdv.permisdeconduire.gouv.fr")
-
     time.sleep(5)
-
     print("📄 Titre :", driver.title)
     driver.quit()
     print("✅ Terminé.")
 except Exception as e:
     print("❌ Erreur :", e)
+
 
 
 
