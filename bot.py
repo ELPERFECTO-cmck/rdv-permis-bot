@@ -1,17 +1,26 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-import time
 import os
+import time
 
 print("🟢 Bot démarré...")
 
-# Chemin alternatif vers Chrome
-chrome_path = "/usr/bin/google-chrome-stable"
+# 🔍 Liste des chemins possibles pour Chrome
+chrome_paths = [
+    "/usr/bin/google-chrome",
+    "/usr/bin/google-chrome-stable",
+    "/opt/google/chrome/google-chrome"
+]
 
-# Vérification de l'existence
-if not os.path.exists(chrome_path):
-    print("❌ Chrome n'est pas installé à l'emplacement prévu.")
+chrome_path = None
+for path in chrome_paths:
+    if os.path.exists(path):
+        chrome_path = path
+        break
+
+if not chrome_path:
+    print("❌ Chrome introuvable dans les chemins connus.")
     exit(1)
 
 chrome_options = Options()
