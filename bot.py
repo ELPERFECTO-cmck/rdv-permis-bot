@@ -1,27 +1,44 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+import subprocess
 import os
 import time
 
 print("🟢 Bot démarré...")
 
-# 🔍 Liste des chemins possibles pour Chrome
-chrome_paths = [
-    "/usr/bin/google-chrome",
-    "/usr/bin/google-chrome-stable",
-    "/opt/google/chrome/google-chrome"
-]
+# 🔍 Tente de détecter le chemin de Chrome automatiquement
+def find_chrome_binary():
+    try:
+        path = subprocess.check_output(['which', 'google-chrome'], stderr=subprocess.DEVNULL).decode().strip()
+        if os.path.exists(path):
+            return path
+    except Exception:
+        pass
 
-chrome_path = None
-for path in chrome_paths:
-    if os.path.exists(path):
-        chrome_path = path
-        break
+    try:
+        path = subprocess.check_output(['which', 'google-chrome-stable'], stderr=subprocess.DEVNULL).decode().strip()
+        if os.path.exists(path):
+            return path
+    except Exception:
+        pass
+
+    try:
+        path = subprocess.check_output(['which', 'chrome'], stderr=subprocess.DEVNULL).decode().strip()
+        if os.path.exists(path):
+            return path
+    except Exception:
+        pass
+
+    return None
+
+chrome_path = find_chrome_binary()
 
 if not chrome_path:
-    print("❌ Chrome introuvable dans les chemins connus.")
+    print("❌ Chrome introuvable automatiquement.")
     exit(1)
+else:
+    print(f"✅ Chrome détecté à : {chrome_path}")
 
 chrome_options = Options()
 chrome_options.binary_location = chrome_path
@@ -44,5 +61,6 @@ try:
 
 except Exception as e:
     print("❌ Erreur :", e)
+
 
 
