@@ -4,7 +4,8 @@ import time
 
 print("💡 Le script a bien démarré")
 
-chrome_path = "/opt/google/chrome/google-chrome"  # 💥 chemin correct dans l'image officielle
+chrome_path = "chrome_path = "/usr/bin/google-chrome"
+  # 💥 chemin correct dans l'image officielle
 
 chrome_options = Options()
 chrome_options.binary_location = chrome_path
